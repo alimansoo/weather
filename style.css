@@ -1,0 +1,52 @@
+*{
+    box-sizing: border-box;
+    margin: auto;
+    padding: auto;
+}
+@font-face {
+    font-family: 'Yekan';
+    src: url('Vazir.ttf');
+}
+body{
+    font-family: Yekan !important;
+    width: 100vw;
+    height: 100vh;
+}
+body.purple{  
+    background-color: #4f32ff !important;
+}
+.nav-gray{
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    margin: 0;
+    align-items: center;
+    background-color: rgb(238, 238, 238);
+    border: 1.5px solid rgb(209, 209, 209);
+    padding: 1.5rem 1rem;
+    border-radius: 0.5rem;
+}
+.border-dark{
+    border: 1.5px solid rgb(209, 209, 209) !important;
+}
+.flex-container{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.svg-icon{
+    width: 28px;
+    height: 28px;
+}
+.svg-icon-lg{
+    width: 62px;
+    height: 62px;
+}
+.p-1{
+    padding: 20px !important;
+}
+.ard-image{
+    width: 300px !important;
+    /* margin: 3rem; */
+}
