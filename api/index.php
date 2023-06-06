@@ -1,24 +1,55 @@
 <?php
-$temp = $_REQUEST['temp'];
-$device_id = $_REQUEST['device_id'];
-$dbhost = 'localhost';
-$dbuser = 'frar963_mohajer';
-$dbpass = '8480411';
-$db = 'frar963_mohajer';
-$conn = new mysqli($dbhost, $dbuser, $dbpass,$db);
+const HOST = "localhost";
+const USERNAME = "frar963_mohajer";
+const PASSWORD = "8480411";
+const DB = "frar963_mohajer";
+
+$connectType = isset($_SERVER["CONTENT_TYPE"]);
+if ($connectType == "application/json") {
+    $data = json_decode(file_get_contents("php://input"), true);
+    
+    if (!isset($data['temperature']) or !isset($data['humidity']) or !isset($data['id'])){
+    http_response_code(400); 
+    exit;
+    }
+}
+else{
+    http_response_code(400); 
+    exit;
+}
+
+
+
+$temp = $data['temperature'];
+$humidity = $data['humidity'];
+$id = $data['id'];
+
 $sql = "
-    INSERT INTO `temperature`( `themp`, `currnt_date`, `device_id`) 
-    VALUES (
-        '".$temp."',
-        '".date('Y-m-d H:i:s')."',
-        ".$device_id."
-    )
+    SELECT *
+    FROM `devices`
+    WHERE id = $id
 ";
 $retval = $conn->query( $sql );
+$array = $retval->fetch_array(MYSQLI_ASSOC);
+if (count($array) < 1) {
+    http_response_code(401);
+    exit;
+}
 
-$array = array(
-    'mesage' => 'Temperature Successfuly Added',
-    'status' => 202
-);
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+$mysql = new mysqli();
+$mysql->connect(HOST, USERNAME, PASSWORD);
+$mysql->select_db(DB);
 
-echo json_encode($array);
+
+$query = "INSERT INTO devices_information (temperature, humidity, device_id) VALUES(?, ?, ?);";
+$stm = $mysql->prepare($query);
+$stm->bind_param("iii", $temp, $humidity, $id);
+
+if ($stm->execute()){
+    $last_id = $mysql->insert_id;
+    http_response_code(200);
+    echo json_encode($last_id);
+    exit;
+}
+http_response_code(500);

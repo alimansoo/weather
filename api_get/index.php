@@ -6,11 +6,11 @@ $dbpass = '8480411';
 $db = 'frar963_mohajer';
 $conn = new mysqli($dbhost, $dbuser, $dbpass,$db);
 
-$device_id = $_REQUEST['device_id'];
+$device_id = $_SESSION['id'];
 
 $sql = "
-    SELECT `id`, `themp`, `currnt_date` 
-    FROM `temperature`
+    SELECT *
+    FROM `devices_information`
     WHERE device_id = $device_id
     ORDER BY id DESC
     LIMIT 1

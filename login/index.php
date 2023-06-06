@@ -12,7 +12,7 @@ if (isset($_REQUEST['phone'])) {
   $db = 'frar963_mohajer';
   $conn = new mysqli($dbhost, $dbuser, $dbpass,$db);
   $sql = "
-    SELECT * FROM `users` WHERE email = '".$_REQUEST['phone']."'
+    SELECT * FROM `devices` WHERE user_name = '".$_REQUEST['user_name']." AND password = ".$_REQUEST['password']."
   ";
   $retval = $conn->query( $sql );
   $array = $retval->fetch_array(MYSQLI_ASSOC);
@@ -57,8 +57,9 @@ if (isset($_REQUEST['phone'])) {
       </div>
 
       <!-- Login Form -->
-      <form methode='post'>
-        <input type="text" id="login" class="fadeIn second" name="phone" placeholder=" ایمیل">
+      <form method='post'>
+        <input type="text" id="login" class="fadeIn second" name="user_name" placeholder=" نام کاربری">
+        <input type="text" id="login" class="fadeIn second" name="password" placeholder="  کلمه عبور">
         <input type="submit" class="fadeIn fourth btn btn-primary" value="ورود">
       </form>
 
