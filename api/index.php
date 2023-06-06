@@ -24,6 +24,13 @@ $temp = $data['temperature'];
 $humidity = $data['humidity'];
 $id = $data['id'];
 
+
+
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+$mysql = new mysqli();
+$mysql->connect(HOST, USERNAME, PASSWORD);
+$mysql->select_db(DB);
+
 $sql = "
     SELECT *
     FROM `devices`
@@ -35,13 +42,6 @@ if (count($array) < 1) {
     http_response_code(401);
     exit;
 }
-
-mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-$mysql = new mysqli();
-$mysql->connect(HOST, USERNAME, PASSWORD);
-$mysql->select_db(DB);
-
-
 $query = "INSERT INTO devices_information (temperature, humidity, device_id) VALUES(?, ?, ?);";
 $stm = $mysql->prepare($query);
 $stm->bind_param("iii", $temp, $humidity, $id);
